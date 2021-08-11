@@ -27,6 +27,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       name: "",
       password: "",
@@ -35,6 +36,13 @@ class App extends Component {
       balance: "",
     }
   }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
 
   render() {
     return (
@@ -50,7 +58,7 @@ class App extends Component {
               />
               <input
                 className="footer-input"
-                name="name"
+                name="cnic"
                 type="number"
                 placeholder="CNIC"
                 value={this.state.cnic}
@@ -58,7 +66,7 @@ class App extends Component {
               />
               <input
                 className="footer-input"
-                name="name"
+                name="password"
                 type="text"
                 placeholder="Password"
                 value={this.state.password}
