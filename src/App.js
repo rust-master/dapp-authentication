@@ -4,7 +4,6 @@ import "./App.css";
 import Web3 from "web3";
 import contract from "./build/contracts/Auth.json";
 class App extends Component {
-
   async componentWillMount() {
     console.log("componentWillMount");
     await this.loadWeb3();
@@ -26,23 +25,58 @@ class App extends Component {
     }
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      password: "",
+      address:  "",
+      cnic: "",
+      balance: "",
+    }
+  }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <div>
+            <form>
+              <input
+                className="footer-input"
+                name="name"
+                type="text"
+                placeholder="Name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+              <input
+                className="footer-input"
+                name="name"
+                type="number"
+                placeholder="CNIC"
+                value={this.state.cnic}
+                onChange={this.handleChange}
+              />
+              <input
+                className="footer-input"
+                name="name"
+                type="text"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <input
+                className="footer-input"
+                name="name"
+                type="text"
+                placeholder="Name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+              <button>Submit</button>
+            </form>
+          </div>
         </header>
       </div>
     );
