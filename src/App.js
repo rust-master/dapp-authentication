@@ -58,16 +58,10 @@ class App extends Component {
 
     console.log(this.state.balance);
     console.log(this.state.address);
-
-
-
-
-
   }
 
-
   logoutSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const web3 = window.web3;
     const webeProvider = new Web3(
       Web3.givenProvider || "http://localhost:7545"
@@ -85,14 +79,13 @@ class App extends Component {
       deployedNetwork.address
     );
 
-     await userAuth.methods
-    .logout(this.state.address)
-    .send({ from: this.state.address });
-
-  }
+    await userAuth.methods
+      .logout(this.state.address)
+      .send({ from: this.state.address });
+  };
 
   handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const web3 = window.web3;
     const webeProvider = new Web3(
       Web3.givenProvider || "http://localhost:7545"
@@ -111,50 +104,53 @@ class App extends Component {
     );
 
     const checkIsUser = await userAuth.methods
-    .checkIsUserLogged(this.state.address)
-    .call({ from: this.state.address });
+      .checkIsUserLogged(this.state.address)
+      .call({ from: this.state.address });
 
     console.log("checkIsUser : " + checkIsUser);
-    
   };
 
   userRegistration = async (event) => {
     event.preventDefault();
 
-    const web3 = window.web3;
+    try {
+      const web3 = window.web3;
 
-    const webeProvider = new Web3(
-      Web3.givenProvider || "http://localhost:7545"
-    );
-    const accounts = await webeProvider.eth.getAccounts();
-    this.setState({ address: accounts[0] });
-    console.log("Account: " + this.state.address);
+      const webeProvider = new Web3(
+        Web3.givenProvider || "http://localhost:7545"
+      );
+      const accounts = await webeProvider.eth.getAccounts();
+      this.setState({ address: accounts[0] });
+      console.log("Account: " + this.state.address);
 
-    const netId = await web3.eth.net.getId();
-    const deployedNetwork = contract.networks[netId];
+      const netId = await web3.eth.net.getId();
+      const deployedNetwork = contract.networks[netId];
 
-    console.log("Deployed Address :", deployedNetwork.address);
+      console.log("Deployed Address :", deployedNetwork.address);
 
-    console.log(this.state.name);
-    console.log(this.state.address);
-    console.log(this.state.password);
-    console.log(this.state.balance);
-    console.log(this.state.cnic);
+      console.log(this.state.name);
+      console.log(this.state.address);
+      console.log(this.state.password);
+      console.log(this.state.balance);
+      console.log(this.state.cnic);
 
-    const userAuth = new web3.eth.Contract(
-      contract.abi,
-      deployedNetwork.address
-    );
+      const userAuth = new web3.eth.Contract(
+        contract.abi,
+        deployedNetwork.address
+      );
 
-    await userAuth.methods
-      .register(
-        this.state.address,
-        this.state.name,
-        this.state.password,
-        this.state.balance,
-        this.state.cnic
-      )
-      .send({ from: this.state.address });
+      await userAuth.methods
+        .register(
+          this.state.address,
+          this.state.name,
+          this.state.password,
+          this.state.balance,
+          this.state.cnic
+        )
+        .send({ from: this.state.address });
+    } catch (e) {
+      console.log("User Already registered with this account no");
+    }
   };
 
   userLogin = async (event) => {
@@ -186,10 +182,7 @@ class App extends Component {
       .login(this.state.address, this.state.password)
       .send({ from: this.state.address });
 
-    
-      
-        console.log("Check : " + check);
-      
+    console.log("Check : " + check);
   };
 
   handleChange(e) {
@@ -201,7 +194,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/* <form>
+        <form>
           <input
             className="footer-input"
             name="name"
@@ -227,10 +220,10 @@ class App extends Component {
             onChange={this.handleChange}
           />
           <Button onClick={this.userRegistration}>Register User</Button>
-        </form> */}
+        </form>
 
         <div>
-          <form>
+          {/* <form>
           
             <input
               className="footer-input"
@@ -247,23 +240,23 @@ class App extends Component {
             >
               Login User
             </Button>
-          </form>
+          </form> */}
 
           <Button
-              className="btn--primary"
-              color="primary"
-              onClick={this.handleSubmit}
-            >
-              Check
-            </Button>
+            className="btn--primary"
+            color="primary"
+            onClick={this.handleSubmit}
+          >
+            Check
+          </Button>
 
-            <Button
-              className="btn--primary"
-              color="primary"
-              onClick={this.logoutSubmit}
-            >
-              logout
-            </Button>
+          <Button
+            className="btn--primary"
+            color="primary"
+            onClick={this.logoutSubmit}
+          >
+            logout
+          </Button>
         </div>
       </div>
     );
