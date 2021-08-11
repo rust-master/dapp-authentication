@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { Button } from "./Button";
 import Web3 from "web3";
 import contract from "./build/contracts/Auth.json";
 class App extends Component {
+
   async componentWillMount() {
     console.log("componentWillMount");
     await this.loadWeb3();
@@ -32,10 +34,10 @@ class App extends Component {
     this.state = {
       name: "",
       password: "",
-      address:  "",
+      address: "",
       cnic: "",
       balance: "",
-    }
+    };
   }
 
   async loadBlockchainData() {
@@ -46,18 +48,63 @@ class App extends Component {
     );
     const accounts = await webeProvider.eth.getAccounts();
 
-    this.setState({address: accounts[0]});
+    this.setState({ address: accounts[0] });
 
     const blnce = web3.utils.fromWei(
       await web3.eth.getBalance(accounts[0]),
       "ether"
     );
 
-    this.setState({balance : blnce});
+    this.setState({ balance: blnce });
 
     console.log(this.state.balance);
     console.log(this.state.address);
+  }
 
+
+  // handleSubmit = event => {
+  //   event.preventDefault()
+  //   console.log(event.target.firstName.value); //get value from input with name of firstName
+  // };
+
+
+   userRegistration = async (event) => {
+    event.preventDefault();
+    
+    const web3 = window.web3;
+
+    const webeProvider = new Web3(
+      Web3.givenProvider || "http://localhost:7545"
+    );
+    const accounts = await webeProvider.eth.getAccounts();
+    this.setState({ address: accounts[0] });
+    console.log("Account: " + this.state.address);
+
+    const netId = await web3.eth.net.getId();
+    const deployedNetwork = contract.networks[netId];
+
+    console.log(deployedNetwork.address);
+
+    console.log(this.state.name);
+    console.log(this.state.address);
+    console.log(this.state.password);
+    console.log(this.state.balance);
+    console.log(this.state.cnic);
+
+    const userAuth = new web3.eth.Contract(
+      contract.abi,
+      deployedNetwork.address
+    );
+
+    await userAuth.methods
+      .register(
+        this.state.address,
+        this.state.name,
+        this.state.password,
+        this.state.balance,
+        this.state.cnic
+      )
+      .send({ from: this.state.account });
   }
 
   handleChange(e) {
@@ -66,39 +113,59 @@ class App extends Component {
     });
   }
 
-
   render() {
     return (
+      <div>
+        <form>
+          <input
+            className="footer-input"
+            name="name"
+            type="text"
+            placeholder="Name"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+          <input
+            className="footer-input"
+            name="cnic"
+            type="number"
+            placeholder="CNIC"
+            value={this.state.cnic}
+            onChange={this.handleChange}
+          />
+          <input
+            className="footer-input"
+            name="password"
+            type="text"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+          <Button onClick={this.userRegistration}>Register User</Button>
+        </form>
 
-            <form>
-              <input
-                className="footer-input"
-                name="name"
-                type="text"
-                placeholder="Name"
-                value={this.state.name}
-                onChange={this.handleChange}
-              />
-              <input
-                className="footer-input"
-                name="cnic"
-                type="number"
-                placeholder="CNIC"
-                value={this.state.cnic}
-                onChange={this.handleChange}
-              />
-              <input
-                className="footer-input"
-                name="password"
-                type="text"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-              <button>Register User</button>
-            </form>
-      
-   
+        <div>
+          {/* <form>
+            <input
+              className="footer-input"
+              name="cnic"
+              type="number"
+              placeholder="CNIC"
+              value={this.state.cnic}
+              onChange={this.handleChange}
+            />
+            <input
+              className="footer-input"
+              name="password"
+              type="text"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+            <button>Login User</button>
+          </form> */}
+        </div>
+      </div>
     );
   }
 }
