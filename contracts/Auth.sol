@@ -7,7 +7,7 @@ contract Auth {
         address addr;
         string name;
         string password;
-        uint256 balance;
+        string balance;
         string CNIC;
         bool isUserLoggedIn;
     }
@@ -19,7 +19,7 @@ contract Auth {
         address _address,
         string memory _name,
         string memory _password,
-        uint256 _balance,
+        string memory _balance,
         string memory _cnic
     ) public returns (bool) {
         user[_cnic].addr = _address;
