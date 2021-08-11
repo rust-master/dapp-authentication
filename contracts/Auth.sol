@@ -22,12 +22,13 @@ contract Auth {
         string memory _balance,
         string memory _cnic
     ) public returns (bool) {
+        require(user[_address].addr != msg.sender);
         user[_address].addr = _address;
         user[_address].name = _name;
         user[_address].password = _password;
         user[_address].balance = _balance;
         user[_address].CNIC = _cnic;
-        user[_address].isUserLoggedIn = true;
+        user[_address].isUserLoggedIn = false;
         return true;
     }
 
