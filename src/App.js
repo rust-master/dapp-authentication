@@ -38,8 +38,25 @@ class App extends Component {
     }
   }
 
-  loadBlockchainData() {
+  async loadBlockchainData() {
     console.log("loadBlockchainData");
+    const web3 = window.web3;
+    const webeProvider = new Web3(
+      Web3.givenProvider || "http://localhost:7545"
+    );
+    const accounts = await webeProvider.eth.getAccounts();
+
+    this.setState({address: accounts[0]});
+
+    const blnce = web3.utils.fromWei(
+      await web3.eth.getBalance(accounts[0]),
+      "ether"
+    );
+
+    this.setState({balance : blnce});
+
+    console.log(this.state.balance);
+    console.log(this.state.address);
 
   }
 
