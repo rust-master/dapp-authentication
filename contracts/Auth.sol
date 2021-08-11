@@ -12,7 +12,7 @@ contract Auth {
         bool isUserLoggedIn;
     }
 
-    mapping(string => UserDetail) user;
+    mapping(address => UserDetail) user;
 
     // user registration function
     function register(
@@ -22,23 +22,30 @@ contract Auth {
         string memory _balance,
         string memory _cnic
     ) public returns (bool) {
-        user[_cnic].addr = _address;
-        user[_cnic].name = _name;
-        user[_cnic].password = _password;
-        user[_cnic].balance = _balance;
-        user[_cnic].CNIC = _cnic;
+        user[_address].addr = _address;
+        user[_address].name = _name;
+        user[_address].password = _password;
+        user[_address].balance = _balance;
+        user[_address].CNIC = _cnic;
         return true;
     }
 
-    function login(string memory _cnic, string memory _password)
+    function login(address _address, string memory _password)
         public
         returns (bool)
     {
-        if (keccak256(abi.encodePacked(user[_cnic].password)) == keccak256(abi.encodePacked(_password))) {
-             user[_cnic].isUserLoggedIn = true;
+        if (
+            keccak256(abi.encodePacked(user[_address].password)) ==
+            keccak256(abi.encodePacked(_password))
+        ) {
+            user[_address].isUserLoggedIn = true;
             return true;
         } else {
             return false;
         }
+    }
+
+    function checkIsUserLogged(address _address) public returns (bool) {
+        return(user[_address].isUserLoggedIn);
     }
 }
