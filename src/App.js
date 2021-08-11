@@ -6,10 +6,12 @@ import Web3 from "web3";
 class App extends Component {
 
   async componentWillMount() {
+    console.log("componentWillMount");
     await this.loadWeb3();
   }
 
   async loadWeb3() {
+    console.log("loadWeb3");
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       await window.ethereum.enable();
