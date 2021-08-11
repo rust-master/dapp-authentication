@@ -27,6 +27,7 @@ contract Auth {
         user[_address].password = _password;
         user[_address].balance = _balance;
         user[_address].CNIC = _cnic;
+        user[_address].isUserLoggedIn = true;
         return true;
     }
 
@@ -39,13 +40,13 @@ contract Auth {
             keccak256(abi.encodePacked(_password))
         ) {
             user[_address].isUserLoggedIn = true;
-            return true;
+            return user[_address].isUserLoggedIn;
         } else {
             return false;
         }
     }
 
-    function checkIsUserLogged(address _address) public view returns (bool) {
+    function checkIsUserLogged(address _address) public returns (bool) {
         return(user[_address].isUserLoggedIn);
     }
     

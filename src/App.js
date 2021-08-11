@@ -59,6 +59,23 @@ class App extends Component {
     console.log(this.state.balance);
     console.log(this.state.address);
 
+
+
+
+
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault()
+    const web3 = window.web3;
+    const webeProvider = new Web3(
+      Web3.givenProvider || "http://localhost:7545"
+    );
+    const accounts = await webeProvider.eth.getAccounts();
+
+    this.setState({ address: accounts[0] });
+    console.log("Account: " + this.state.address);
+
     const netId = await web3.eth.net.getId();
     const deployedNetwork = contract.networks[netId];
 
@@ -67,20 +84,13 @@ class App extends Component {
       deployedNetwork.address
     );
 
-
     const checkIsUser = await userAuth.methods
     .checkIsUserLogged(this.state.address)
     .call({ from: this.state.address });
 
     console.log("checkIsUser : " + checkIsUser);
-
-
-  }
-
-  // handleSubmit = event => {
-  //   event.preventDefault()
-  //   console.log(event.target.firstName.value); //get value from input with name of firstName
-  // };
+    
+  };
 
   userRegistration = async (event) => {
     event.preventDefault();
@@ -195,14 +205,7 @@ class App extends Component {
 
         <div>
           <form>
-            {/* <input
-              className="footer-input"
-              name="cnic"
-              type="number"
-              placeholder="CNIC"
-              value={this.state.address}
-              onChange={this.handleChange}
-            /> */}
+          
             <input
               className="footer-input"
               name="password"
@@ -219,6 +222,14 @@ class App extends Component {
               Login User
             </Button>
           </form>
+
+          <Button
+              className="btn--primary"
+              color="primary"
+              onClick={this.handleSubmit}
+            >
+              Check
+            </Button>
         </div>
       </div>
     );
