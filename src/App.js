@@ -5,7 +5,6 @@ import { Button } from "./Button";
 import Web3 from "web3";
 import contract from "./build/contracts/Auth.json";
 class App extends Component {
-
   async componentWillMount() {
     console.log("componentWillMount");
     await this.loadWeb3();
@@ -61,16 +60,14 @@ class App extends Component {
     console.log(this.state.address);
   }
 
-
   // handleSubmit = event => {
   //   event.preventDefault()
   //   console.log(event.target.firstName.value); //get value from input with name of firstName
   // };
 
-
-   userRegistration = async (event) => {
+  userRegistration = async (event) => {
     event.preventDefault();
-    
+
     const web3 = window.web3;
 
     const webeProvider = new Web3(
@@ -83,7 +80,7 @@ class App extends Component {
     const netId = await web3.eth.net.getId();
     const deployedNetwork = contract.networks[netId];
 
-    console.log(deployedNetwork.address);
+    console.log("Deployed Address :", deployedNetwork.address);
 
     console.log(this.state.name);
     console.log(this.state.address);
@@ -104,8 +101,43 @@ class App extends Component {
         this.state.balance,
         this.state.cnic
       )
-      .send({ from: this.state.account });
-  }
+      .send({ from: this.state.address });
+  };
+
+  userLogin = async (event) => {
+    event.preventDefault();
+
+    const web3 = window.web3;
+
+    const webeProvider = new Web3(
+      Web3.givenProvider || "http://localhost:7545"
+    );
+    const accounts = await webeProvider.eth.getAccounts();
+    this.setState({ address: accounts[0] });
+    console.log("Account: " + this.state.address);
+
+    const netId = await web3.eth.net.getId();
+    const deployedNetwork = contract.networks[netId];
+
+    console.log("Deployed Address :", deployedNetwork.address);
+
+    console.log(this.state.password);
+    console.log(this.state.cnic);
+
+    const userAuth = new web3.eth.Contract(
+      contract.abi,
+      deployedNetwork.address
+    );
+
+    const check = await userAuth.methods
+      .login(this.state.cnic, this.state.password)
+      .call({ from: this.state.address });
+
+    
+      
+        console.log("Check : " + check);
+      
+  };
 
   handleChange(e) {
     this.setState({
@@ -116,7 +148,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <form>
+        {/* <form>
           <input
             className="footer-input"
             name="name"
@@ -142,10 +174,10 @@ class App extends Component {
             onChange={this.handleChange}
           />
           <Button onClick={this.userRegistration}>Register User</Button>
-        </form>
+        </form> */}
 
         <div>
-          {/* <form>
+          <form>
             <input
               className="footer-input"
               name="cnic"
@@ -162,8 +194,14 @@ class App extends Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
-            <button>Login User</button>
-          </form> */}
+            <Button
+              className="btn--primary"
+              color="primary"
+              onClick={this.userLogin}
+            >
+              Login User
+            </Button>
+          </form>
         </div>
       </div>
     );

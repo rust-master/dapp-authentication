@@ -38,7 +38,6 @@ contract Auth {
              user[_cnic].isUserLoggedIn = true;
             return true;
         } else {
-             user[_cnic].isUserLoggedIn = false;
             return false;
         }
     }
