@@ -66,15 +66,7 @@ class App extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
               />
-              <input
-                className="footer-input"
-                name="name"
-                type="text"
-                placeholder="Name"
-                value={this.state.name}
-                onChange={this.handleChange}
-              />
-              <button>Submit</button>
+              <button>Register User</button>
             </form>
           </div>
         </header>
