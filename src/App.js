@@ -58,6 +58,23 @@ class App extends Component {
 
     console.log(this.state.balance);
     console.log(this.state.address);
+
+    const netId = await web3.eth.net.getId();
+    const deployedNetwork = contract.networks[netId];
+
+    const userAuth = new web3.eth.Contract(
+      contract.abi,
+      deployedNetwork.address
+    );
+
+
+    const checkIsUser = await userAuth.methods
+    .checkIsUserLogged(this.state.address)
+    .call({ from: this.state.address });
+
+    console.log("checkIsUser : " + checkIsUser);
+
+
   }
 
   // handleSubmit = event => {
@@ -122,7 +139,7 @@ class App extends Component {
     console.log("Deployed Address :", deployedNetwork.address);
 
     console.log(this.state.password);
-    console.log(this.state.cnic);
+    console.log(this.state.address);
 
     const userAuth = new web3.eth.Contract(
       contract.abi,
@@ -130,7 +147,7 @@ class App extends Component {
     );
 
     const check = await userAuth.methods
-      .login(this.state.cnic, this.state.password)
+      .login(this.state.address, this.state.password)
       .call({ from: this.state.address });
 
     
@@ -178,14 +195,14 @@ class App extends Component {
 
         <div>
           <form>
-            <input
+            {/* <input
               className="footer-input"
               name="cnic"
               type="number"
               placeholder="CNIC"
-              value={this.state.cnic}
+              value={this.state.address}
               onChange={this.handleChange}
-            />
+            /> */}
             <input
               className="footer-input"
               name="password"
