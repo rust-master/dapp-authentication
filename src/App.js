@@ -1,8 +1,9 @@
+import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Web3 from "web3";
 //import contract from "../build/contracts/AuthContract.json";
-class App extends React.Component {
+class App extends Component {
 
   async componentWillMount() {
     await this.loadWeb3();
