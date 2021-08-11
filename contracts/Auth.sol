@@ -46,7 +46,7 @@ contract Auth {
         }
     }
 
-    function checkIsUserLogged(address _address) public returns (bool) {
+    function checkIsUserLogged(address _address) public view returns (bool) {
         return(user[_address].isUserLoggedIn);
     }
     

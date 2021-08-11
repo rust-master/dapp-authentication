@@ -65,6 +65,32 @@ class App extends Component {
 
   }
 
+
+  logoutSubmit = async (event) => {
+    event.preventDefault()
+    const web3 = window.web3;
+    const webeProvider = new Web3(
+      Web3.givenProvider || "http://localhost:7545"
+    );
+    const accounts = await webeProvider.eth.getAccounts();
+
+    this.setState({ address: accounts[0] });
+    console.log("Account: " + this.state.address);
+
+    const netId = await web3.eth.net.getId();
+    const deployedNetwork = contract.networks[netId];
+
+    const userAuth = new web3.eth.Contract(
+      contract.abi,
+      deployedNetwork.address
+    );
+
+     await userAuth.methods
+    .logout(this.state.address)
+    .send({ from: this.state.address });
+
+  }
+
   handleSubmit = async (event) => {
     event.preventDefault()
     const web3 = window.web3;
@@ -158,7 +184,7 @@ class App extends Component {
 
     const check = await userAuth.methods
       .login(this.state.address, this.state.password)
-      .call({ from: this.state.address });
+      .send({ from: this.state.address });
 
     
       
@@ -229,6 +255,14 @@ class App extends Component {
               onClick={this.handleSubmit}
             >
               Check
+            </Button>
+
+            <Button
+              className="btn--primary"
+              color="primary"
+              onClick={this.logoutSubmit}
+            >
+              logout
             </Button>
         </div>
       </div>
