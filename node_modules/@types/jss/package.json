@@ -1,0 +1,42 @@
+{
+    "name": "@types/jss",
+    "version": "9.5.8",
+    "description": "TypeScript definitions for jss",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Brenton Simpson",
+            "url": "https://github.com/appsforartists",
+            "githubUsername": "appsforartists"
+        },
+        {
+            "name": "Oleg Slobodskoi",
+            "url": "https://github.com/kof",
+            "githubUsername": "kof"
+        },
+        {
+            "name": "Thomas Crockett",
+            "url": "https://github.com/pelotom",
+            "githubUsername": "pelotom"
+        },
+        {
+            "name": "Sebastian Silbermann",
+            "url": "https://github.com/eps1lon",
+            "githubUsername": "eps1lon"
+        }
+    ],
+    "main": "",
+    "types": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/jss"
+    },
+    "scripts": {},
+    "dependencies": {
+        "csstype": "^2.0.0",
+        "indefinite-observable": "^1.0.1"
+    },
+    "typesPublisherContentHash": "b1ad83c8c7beff8c0bb196df285a3fb10101fc209e0c53012f2a2cae4e079cd9",
+    "typeScriptVersion": "2.3"
+}

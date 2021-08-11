@@ -38,9 +38,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <div>
+
             <form>
               <input
                 className="footer-input"
@@ -68,9 +66,8 @@ class App extends Component {
               />
               <button>Register User</button>
             </form>
-          </div>
-        </header>
-      </div>
+      
+   
     );
   }
 }
