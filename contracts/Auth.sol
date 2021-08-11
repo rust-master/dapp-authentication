@@ -1,7 +1,6 @@
 pragma solidity >=0.4.0 <0.6.0;
 
 contract Auth {
-
     struct UserDetail {
         address addr;
         string name;
@@ -31,7 +30,7 @@ contract Auth {
         return true;
     }
 
-    // user login function 
+    // user login function
     function login(address _address, string memory _password)
         public
         returns (bool)
@@ -49,11 +48,11 @@ contract Auth {
 
     // check the user logged In or not
     function checkIsUserLogged(address _address) public view returns (bool) {
-        return(user[_address].isUserLoggedIn);
+        return (user[_address].isUserLoggedIn);
     }
-    
+
     // logout the user
-    function logout(address _address) public  {
+    function logout(address _address) public {
         user[_address].isUserLoggedIn = false;
     }
 }
