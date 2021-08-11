@@ -7,6 +7,7 @@ class App extends Component {
   async componentWillMount() {
     console.log("componentWillMount");
     await this.loadWeb3();
+    this.loadBlockchainData();
   }
 
   async loadWeb3() {
@@ -35,6 +36,11 @@ class App extends Component {
       cnic: "",
       balance: "",
     }
+  }
+
+  loadBlockchainData() {
+    console.log("loadBlockchainData");
+
   }
 
   handleChange(e) {
