@@ -84,7 +84,7 @@ class App extends Component {
       .send({ from: this.state.address });
   };
 
-  handleSubmit = async (event) => {
+  checkIsUserLogged = async (event) => {
     event.preventDefault();
     const web3 = window.web3;
     const webeProvider = new Web3(
@@ -183,6 +183,12 @@ class App extends Component {
       .send({ from: this.state.address });
 
     console.log("Check : " + check);
+
+    const checkIsUser = await userAuth.methods
+      .checkIsUserLogged(this.state.address)
+      .call({ from: this.state.address });
+
+    console.log("checkIsUser : " + checkIsUser);
   };
 
   handleChange(e) {
@@ -194,7 +200,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <form>
+        {/* <form>
           <input
             className="footer-input"
             name="name"
@@ -220,11 +226,10 @@ class App extends Component {
             onChange={this.handleChange}
           />
           <Button onClick={this.userRegistration}>Register User</Button>
-        </form>
+        </form> */}
 
         <div>
-          {/* <form>
-          
+          <form>
             <input
               className="footer-input"
               name="password"
@@ -240,12 +245,12 @@ class App extends Component {
             >
               Login User
             </Button>
-          </form> */}
+          </form>
 
           <Button
             className="btn--primary"
             color="primary"
-            onClick={this.handleSubmit}
+            onClick={this.checkIsUserLogged}
           >
             Check
           </Button>
