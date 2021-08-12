@@ -1,6 +1,7 @@
 # Dapp Authentication
 This project provides the authentication in Decentralized Application on Ethereum Blockchain using Solidity language and (Auth.sol) smart contract written to achieve the authentication functionality in Dapps.
 
+[Blog Link](https://zaryab-programmer.medium.com/how-to-do-authentication-in-decentralized-application-dapp-d9bc66b6249c)
 
 # Getting Started with Create React App
 
