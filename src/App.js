@@ -110,6 +110,40 @@ class App extends Component {
     console.log("checkIsUser : " + checkIsUser);
   };
 
+
+  checkBalance = async (event) => {
+    event.preventDefault();
+
+    const web3 = window.web3;
+
+    const webeProvider = new Web3(
+      Web3.givenProvider || "http://localhost:7545"
+    );
+    const accounts = await webeProvider.eth.getAccounts();
+    this.setState({ address: accounts[0] });
+    console.log("Account: " + this.state.address);
+
+    const netId = await web3.eth.net.getId();
+    const deployedNetwork = contract.networks[netId];
+
+    console.log("Deployed Address :", deployedNetwork.address);
+    const userAuth = new web3.eth.Contract(
+      contract.abi,
+      deployedNetwork.address
+    );
+
+
+    const checkIsUser = await userAuth.methods
+      .checkIsUserLogged(this.state.address)
+      .call({ from: this.state.address });
+
+    console.log("checkIsUser : " + checkIsUser);
+
+
+
+  }
+
+
   userRegistration = async (event) => {
     event.preventDefault();
 
@@ -147,6 +181,10 @@ class App extends Component {
           this.state.balance,
           this.state.cnic
         )
+        .send({ from: this.state.address });
+
+      await userAuth.methods
+        .updateUserBalance(this.state.address, this.state.balance)
         .send({ from: this.state.address });
     } catch (e) {
       console.log("User Already registered with this account no");
@@ -200,7 +238,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/* <form>
+        <form>
           <input
             className="footer-input"
             name="name"
@@ -226,10 +264,10 @@ class App extends Component {
             onChange={this.handleChange}
           />
           <Button onClick={this.userRegistration}>Register User</Button>
-        </form> */}
+        </form>
 
         <div>
-          <form>
+          {/* <form>
             <input
               className="footer-input"
               name="password"
@@ -245,7 +283,7 @@ class App extends Component {
             >
               Login User
             </Button>
-          </form>
+          </form> */}
 
           <Button
             className="btn--primary"
@@ -261,6 +299,14 @@ class App extends Component {
             onClick={this.logoutSubmit}
           >
             logout
+          </Button>
+
+          <Button
+            className="btn--primary"
+            color="primary"
+            onClick={this.checkBalance}
+          >
+            Balance
           </Button>
         </div>
       </div>

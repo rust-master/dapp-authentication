@@ -60,6 +60,10 @@ contract Auth {
         return (user[_address].isUserLoggedIn);
     }
 
+     function getBalance(address _address) public view returns (string memory) {
+        return (user[_address].balance);
+    }
+
     // logout the user
     function logout(address _address, string memory _balance) public {
         user[_address].isUserLoggedIn = false;
