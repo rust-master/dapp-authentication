@@ -133,11 +133,11 @@ class App extends Component {
     );
 
 
-    const checkIsUser = await userAuth.methods
-      .checkIsUserLogged(this.state.address)
+    const check = await userAuth.methods
+      .getBalance(this.state.address)
       .call({ from: this.state.address });
 
-    console.log("checkIsUser : " + checkIsUser);
+    console.log("Balance : " + check);
 
 
 
@@ -183,9 +183,9 @@ class App extends Component {
         )
         .send({ from: this.state.address });
 
-      await userAuth.methods
-        .updateUserBalance(this.state.address, this.state.balance)
-        .send({ from: this.state.address });
+      // await userAuth.methods
+      //   .updateUserBalance(this.state.address, this.state.balance)
+      //   .send({ from: this.state.address });
     } catch (e) {
       console.log("User Already registered with this account no");
     }
