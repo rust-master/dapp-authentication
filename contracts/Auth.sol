@@ -30,8 +30,7 @@ contract Auth {
     // user login function
     function login(
         address _address,
-        string memory _password,
-        string memory _balance
+        string memory _password
     ) public returns (bool) {
         if (
             keccak256(abi.encodePacked(user[_address].password)) ==
@@ -50,7 +49,7 @@ contract Auth {
     }
 
     // logout the user
-    function logout(address _address, string memory _balance) public {
+    function logout(address _address) public {
         user[_address].isUserLoggedIn = false;
     }
 
@@ -82,7 +81,7 @@ contract Auth {
     function registerAdmin(
         address _address,
         string memory _name,
-        string memory _password,
+        string memory _password
     ) public onlyAdmin returns (bool) {
         require(admin[_address].adminAddress != msg.sender);
         admin[_address].adminAddress = _address;
@@ -95,8 +94,7 @@ contract Auth {
     // admin login function
     function loginAdmin(
         address _address,
-        string memory _password,
-        string memory _balance
+        string memory _password
     ) public returns (bool) {
         if (
             keccak256(abi.encodePacked(admin[_address].password)) ==
@@ -115,7 +113,7 @@ contract Auth {
     }
 
     // logout the admin
-    function logoutAdmin(address _address, string memory _balance) public {
+    function logoutAdmin(address _address) public {
         admin[_address].isAdminLoggedIn = false;
     }
 }
