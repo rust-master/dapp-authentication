@@ -5,7 +5,6 @@ contract Auth {
         address addr;
         string name;
         string password;
-        string balance;
         string CNIC;
         bool isUserLoggedIn;
     }
@@ -17,14 +16,12 @@ contract Auth {
         address _address,
         string memory _name,
         string memory _password,
-        string memory _balance,
         string memory _cnic
     ) public notAdmin returns (bool) {
         require(user[_address].addr != msg.sender);
         user[_address].addr = _address;
         user[_address].name = _name;
         user[_address].password = _password;
-        user[_address].balance = _balance;
         user[_address].CNIC = _cnic;
         user[_address].isUserLoggedIn = false;
         return true;
@@ -41,18 +38,10 @@ contract Auth {
             keccak256(abi.encodePacked(_password))
         ) {
             user[_address].isUserLoggedIn = true;
-            updateUserBalance(user[_address].addr, _balance);
             return user[_address].isUserLoggedIn;
         } else {
-            updateUserBalance(user[_address].addr, _balance);
             return false;
         }
-    }
-
-    function updateUserBalance(address _address, string memory _balance)
-        public
-    {
-        user[_address].balance = _balance;
     }
 
     // check the user logged In or not
@@ -60,21 +49,15 @@ contract Auth {
         return (user[_address].isUserLoggedIn);
     }
 
-     function getBalance(address _address) public view returns (string memory) {
-        return (user[_address].balance);
-    }
-
     // logout the user
     function logout(address _address, string memory _balance) public {
         user[_address].isUserLoggedIn = false;
-        updateUserBalance(user[_address].addr, _balance);
     }
 
     struct AdminDetail {
         address adminAddress;
         string name;
         string password;
-        string balance;
         bool isAdminLoggedIn;
     }
     mapping(address => AdminDetail) admin;
@@ -100,13 +83,11 @@ contract Auth {
         address _address,
         string memory _name,
         string memory _password,
-        string memory _balance
     ) public onlyAdmin returns (bool) {
         require(admin[_address].adminAddress != msg.sender);
         admin[_address].adminAddress = _address;
         admin[_address].name = _name;
         admin[_address].password = _password;
-        admin[_address].balance = _balance;
         admin[_address].isAdminLoggedIn = false;
         return true;
     }
@@ -122,18 +103,10 @@ contract Auth {
             keccak256(abi.encodePacked(_password))
         ) {
             admin[_address].isAdminLoggedIn = true;
-            updateAdminBalance(admin[_address].adminAddress, _balance);
             return admin[_address].isAdminLoggedIn;
         } else {
-            updateAdminBalance(admin[_address].adminAddress, _balance);
             return false;
         }
-    }
-
-    function updateAdminBalance(address _address, string memory _balance)
-        public
-    {
-        admin[_address].balance = _balance;
     }
 
     // check the admin logged In or not
@@ -144,6 +117,5 @@ contract Auth {
     // logout the admin
     function logoutAdmin(address _address, string memory _balance) public {
         admin[_address].isAdminLoggedIn = false;
-        updateAdminBalance(admin[_address].adminAddress, _balance);
     }
 }
