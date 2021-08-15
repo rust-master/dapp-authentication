@@ -35,7 +35,6 @@ class App extends Component {
       password: "",
       address: "",
       cnic: "",
-      balance: "",
     };
   }
 
@@ -49,16 +48,6 @@ class App extends Component {
 
     this.setState({ address: accounts[0] });
 
-    const blnce = web3.utils.fromWei(
-      await web3.eth.getBalance(accounts[0]),
-      "ether"
-    );
-
-    
-
-    this.setState({ balance: blnce });
-
-    console.log(this.state.balance);
     console.log(this.state.address);
   }
 
@@ -112,40 +101,6 @@ class App extends Component {
     console.log("checkIsUser : " + checkIsUser);
   };
 
-
-  checkBalance = async (event) => {
-    event.preventDefault();
-
-    const web3 = window.web3;
-
-    const webeProvider = new Web3(
-      Web3.givenProvider || "http://localhost:7545"
-    );
-    const accounts = await webeProvider.eth.getAccounts();
-    this.setState({ address: accounts[0] });
-    console.log("Account: " + this.state.address);
-
-    const netId = await web3.eth.net.getId();
-    const deployedNetwork = contract.networks[netId];
-
-    console.log("Deployed Address :", deployedNetwork.address);
-    const userAuth = new web3.eth.Contract(
-      contract.abi,
-      deployedNetwork.address
-    );
-
-
-    const check = await userAuth.methods
-      .getBalance(this.state.address)
-      .call({ from: this.state.address });
-
-    console.log("Balance : " + check);
-
-
-
-  }
-
-
   userRegistration = async (event) => {
     event.preventDefault();
 
@@ -167,7 +122,6 @@ class App extends Component {
       console.log(this.state.name);
       console.log(this.state.address);
       console.log(this.state.password);
-      console.log(this.state.balance);
       console.log(this.state.cnic);
 
       const userAuth = new web3.eth.Contract(
@@ -180,19 +134,10 @@ class App extends Component {
           this.state.address,
           this.state.name,
           this.state.password,
-          this.state.balance,
           this.state.cnic
         )
         .send({ from: this.state.address });
-
-        this.loadBlockchainData();
-
-      await userAuth.methods
-        .updateUserBalance(this.state.address, this.state.balance)
-        .send({ from: this.state.address });
-        
     } catch (e) {
-      this.loadBlockchainData();  
       console.log("User Already registered with this account no");
     }
   };
@@ -305,14 +250,6 @@ class App extends Component {
             onClick={this.logoutSubmit}
           >
             logout
-          </Button>
-
-          <Button
-            className="btn--primary"
-            color="primary"
-            onClick={this.checkBalance}
-          >
-            Balance
           </Button>
         </div>
       </div>
