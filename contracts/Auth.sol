@@ -60,6 +60,7 @@ contract Auth {
         address adminAddress;
         string name;
         string password;
+        string ipfsImageHash;
         bool isAdminLoggedIn;
     }
     mapping(address => AdminDetail) admin;
@@ -84,12 +85,14 @@ contract Auth {
     function registerAdmin(
         address _address,
         string memory _name,
-        string memory _password
+        string memory _password,
+        string memory _ipfsImageHash
     ) public onlyAdmin returns (bool) {
         require(admin[_address].adminAddress != msg.sender);
         admin[_address].adminAddress = _address;
         admin[_address].name = _name;
         admin[_address].password = _password;
+        admin[_address].ipfsImageHash = _ipfsImageHash;
         admin[_address].isAdminLoggedIn = false;
         return true;
     }
@@ -111,8 +114,8 @@ contract Auth {
     }
 
     // check the admin logged In or not
-    function checkIsAdminLogged(address _address) public view returns (bool) {
-        return (admin[_address].isAdminLoggedIn);
+    function checkIsAdminLogged(address _address) public view returns (bool, string memory) {
+        return (admin[_address].isAdminLoggedIn, admin[_address].ipfsImageHash);
     }
 
     // logout the admin
