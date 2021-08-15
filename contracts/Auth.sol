@@ -12,7 +12,7 @@ contract Auth {
     mapping(address => UserDetail) user;
 
     // user registration function
-    function register(
+    function registerUser(
         address _address,
         string memory _name,
         string memory _password,
@@ -28,7 +28,7 @@ contract Auth {
     }
 
     // user login function
-    function login(
+    function loginUser(
         address _address,
         string memory _password
     ) public returns (bool) {
@@ -49,7 +49,7 @@ contract Auth {
     }
 
     // logout the user
-    function logout(address _address) public {
+    function logoutUser(address _address) public {
         user[_address].isUserLoggedIn = false;
     }
 
