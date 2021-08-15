@@ -54,6 +54,8 @@ class App extends Component {
       "ether"
     );
 
+    
+
     this.setState({ balance: blnce });
 
     console.log(this.state.balance);
@@ -183,10 +185,14 @@ class App extends Component {
         )
         .send({ from: this.state.address });
 
-      // await userAuth.methods
-      //   .updateUserBalance(this.state.address, this.state.balance)
-      //   .send({ from: this.state.address });
+        this.loadBlockchainData();
+
+      await userAuth.methods
+        .updateUserBalance(this.state.address, this.state.balance)
+        .send({ from: this.state.address });
+        
     } catch (e) {
+      this.loadBlockchainData();  
       console.log("User Already registered with this account no");
     }
   };
