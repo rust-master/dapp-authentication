@@ -31,10 +31,10 @@ contract Auth {
     }
 
     // user login function
-    function loginUser(
-        address _address,
-        string memory _password
-    ) public returns (bool) {
+    function loginUser(address _address, string memory _password)
+        public
+        returns (bool)
+    {
         if (
             keccak256(abi.encodePacked(user[_address].password)) ==
             keccak256(abi.encodePacked(_password))
@@ -47,7 +47,11 @@ contract Auth {
     }
 
     // check the user logged In or not
-    function checkIsUserLogged(address _address) public view returns (bool , string memory) {
+    function checkIsUserLogged(address _address)
+        public
+        view
+        returns (bool, string memory)
+    {
         return (user[_address].isUserLoggedIn, user[_address].ipfsImageHash);
     }
 
@@ -98,10 +102,10 @@ contract Auth {
     }
 
     // admin login function
-    function loginAdmin(
-        address _address,
-        string memory _password
-    ) public returns (bool) {
+    function loginAdmin(address _address, string memory _password)
+        public
+        returns (bool)
+    {
         if (
             keccak256(abi.encodePacked(admin[_address].password)) ==
             keccak256(abi.encodePacked(_password))
@@ -114,12 +118,20 @@ contract Auth {
     }
 
     // check the admin logged In or not
-    function checkIsAdminLogged(address _address) public view returns (bool, string memory) {
+    function checkIsAdminLogged(address _address)
+        public
+        view
+        returns (bool, string memory)
+    {
         return (admin[_address].isAdminLoggedIn, admin[_address].ipfsImageHash);
     }
 
     // logout the admin
     function logoutAdmin(address _address) public {
         admin[_address].isAdminLoggedIn = false;
+    }
+
+    function getAdminBalance(address _address) public view returns (uint256) {
+        return (admin[_address].adminAddress.balance);
     }
 }
